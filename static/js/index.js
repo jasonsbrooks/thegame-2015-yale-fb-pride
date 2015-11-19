@@ -1,17 +1,58 @@
+var access_token;
 $(document).ready(function() {
+
+    function dataURItoBlob(dataURI) {
+        var byteString = atob(dataURI.split(',')[1]);
+        var ab = new ArrayBuffer(byteString.length);
+        var ia = new Uint8Array(ab);
+        for (var i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+        }
+        return new Blob([ab], { type: 'image/png' });
+    }
 
   $('#login').click(function() {
     fb_login();
   });
 
   $('#post').click(function() {
-    FB.api("/me/photos?caption=Support Yale at localhost:5000", "POST", {
-        "url": "http://www.folioart.co.uk/images/uploads/Jason-Brooks-Beauty-Folio_Art-Illustration-Advertising-Brand-Fashion-Beauty-Cosmetics-FaceGraphic1-L-L.jpg"
-    }, function (response) {
-        console.log(response);
-        console.log(response.id);
+    debugger;
+    var img = $('#intern-image').attr('src');
+    try{
+        blob = dataURItoBlob(img);
+    }catch(e){console.log(e);}
+    var fd = new FormData();
+    fd.append("source", blob);
+    fd.append("access_token", access_token);
+    fd.append("message", "Support Yale at localhost:8000");
+    try{
+    $.ajax({
+        url:"https://graph.facebook.com/me/photos?access_token=" + access_token,
+        type:"POST",
+        data:fd,
+        processData:false,
+        contentType:false,
+        cache:false,
+        success:function(data){
+            console.log("success " + data);
+        },
+        error:function(shr,status,data){
+            console.log("error " + data + " Status " + shr.status);
+        },
+        complete:function(){
+        console.log("Posted to facebook");
         window.location.replace("https://facebook.com/photo.php?fbid=" + response.id + "&makeprofile=1&makeuserprofile=1");
+        }
     });
+
+    }catch(e){console.log(e);}
+    // FB.api("/me/photos?caption=Support Yale at localhost:5000", "POST", {
+    //     "url": blob
+    // }, function (response) {
+    //     console.log(response);
+    //     console.log(response.id);
+    //     window.location.replace("https://facebook.com/photo.php?fbid=" + response.id + "&makeprofile=1&makeuserprofile=1");
+    // });
   });
 
   function fb_login(){
