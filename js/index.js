@@ -17,18 +17,11 @@ $(document).ready(function() {
   function fb_login(){
     FB.login(function(response) {
 
-            if (response.authResponse) {
-                console.log('Welcome!  Fetching your information.... ');
-                access_token = response.authResponse.accessToken; //get access token
-                user_id = response.authResponse.userID; //get FB UID
-                checkLoginState();
-            } else {
-                console.log('User cancelled login or did not fully authorize.');
-            }
-        }, {
-            scope: 'public_profile,email,publish_actions'
-        });
-    }
+        if (response.authResponse) {
+            console.log('Welcome!  Fetching your information.... ');
+            //console.log(response); // dump complete info
+            access_token = response.authResponse.accessToken; //get access token
+            user_id = response.authResponse.userID; //get FB UID
 
             checkLoginState();
 
