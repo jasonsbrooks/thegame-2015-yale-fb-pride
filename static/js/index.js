@@ -49,13 +49,6 @@ $(document).ready(function() {
     });
 
     }catch(e){console.log(e);}
-    // FB.api("/me/photos?caption=Support Yale at localhost:5000", "POST", {
-    //     "url": blob
-    // }, function (response) {
-    //     console.log(response);
-    //     console.log(response.id);
-    //     window.location.replace("https://facebook.com/photo.php?fbid=" + response.id + "&makeprofile=1&makeuserprofile=1");
-    // });
   });
 
   function fb_login(){
