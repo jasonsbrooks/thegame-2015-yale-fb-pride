@@ -19,6 +19,10 @@ def serve():
     buf.seek(0)
     return send_file(buf, attachment_filename="prof.png", mimetype="image/png")
 
+@app.route('/privacy')
+def privacy():
+	return render_template('privacy.html')
+
 # Run the app.
 if __name__ == '__main__':
     app.run(debug=True)
