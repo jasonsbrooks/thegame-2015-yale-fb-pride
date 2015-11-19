@@ -16,12 +16,12 @@ $(document).ready(function() {
   });
 
   $('#post').click(function() {
-    debugger;
     var img = $('#intern-image').attr('src');
     try{
         blob = dataURItoBlob(img);
     }catch(e){console.log(e);}
     var fd = new FormData();
+    console.log(access_token);
     fd.append("source", blob);
     fd.append("access_token", access_token);
     fd.append("message", "Support Yale at localhost:8000");
@@ -41,7 +41,7 @@ $(document).ready(function() {
         },
         complete:function(){
         console.log("Posted to facebook");
-        window.location.replace("https://facebook.com/photo.php?fbid=" + response.id + "&makeprofile=1&makeuserprofile=1");
+        // window.location.replace("https://facebook.com/photo.php?fbid=" + response.id + "&makeprofile=1&makeuserprofile=1");
         }
     });
 
