@@ -147,10 +147,10 @@ $(document).ready(function() {
                     var ctx = c.getContext("2d");
                     var profile = new Image();
                     var overlay = new Image();
-                    profile.src = "http://localhost:5000/serve?url=" + escaped;
+                    profile.src = "/serve?url=" + escaped;
                     profile.onload = function() {
                         ctx.drawImage(profile, 0, 0, 800, 800);
-                        overlay.src = "http://localhost:5000/static/img/overlay.png";
+                        overlay.src = "/static/img/overlay.png";
                         overlay.onload = function() {
                             ctx.drawImage(overlay, 0, 0, 800, 800);
                             var img = c.toDataURL("image/png");
