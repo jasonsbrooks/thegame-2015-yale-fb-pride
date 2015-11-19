@@ -1,4 +1,4 @@
-var access_token;
+
 $(document).ready(function() {
 
     function dataURItoBlob(dataURI) {
@@ -16,6 +16,8 @@ $(document).ready(function() {
   });
 
   $('#post').click(function() {
+    var authResponse = FB.getAuthResponse();
+    var access_token = authResponse["accessToken"];
     var img = $('#intern-image').attr('src');
     try{
         blob = dataURItoBlob(img);
@@ -34,14 +36,15 @@ $(document).ready(function() {
         contentType:false,
         cache:false,
         success:function(data){
-            console.log("success " + data);
+            console.log(data);
+            window.location.replace("https://facebook.com/photo.php?fbid=" + data.id + "&makeprofile=1&makeuserprofile=1");
         },
         error:function(shr,status,data){
             console.log("error " + data + " Status " + shr.status);
         },
         complete:function(){
         console.log("Posted to facebook");
-        // window.location.replace("https://facebook.com/photo.php?fbid=" + response.id + "&makeprofile=1&makeuserprofile=1");
+        
         }
     });
 
