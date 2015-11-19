@@ -26,7 +26,7 @@ $(document).ready(function() {
     console.log(access_token);
     fd.append("source", blob);
     fd.append("access_token", access_token);
-    fd.append("message", "Support Yale at localhost:8000");
+    fd.append("message", "Support Yale at http://yalepri.de!");
     try{
     $.ajax({
         url:"https://graph.facebook.com/me/photos?access_token=" + access_token,
