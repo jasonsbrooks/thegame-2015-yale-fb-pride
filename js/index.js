@@ -1,11 +1,21 @@
 $(document).ready(function() {
 
-    $('.facebook').click(function() {
-        fb_login();
-    });
+  $('#login').click(function() {
+    fb_login();
+  });
 
-    function fb_login() {
-        FB.login(function(response) {
+  $('#post').click(function() {
+    FB.api("/me/photos?caption=Support Yale at localhost:8000", "POST", {
+        "url": "http://www.folioart.co.uk/images/uploads/Jason-Brooks-Beauty-Folio_Art-Illustration-Advertising-Brand-Fashion-Beauty-Cosmetics-FaceGraphic1-L-L.jpg"
+    }, function (response) {
+        console.log(response);
+        console.log(response.id);
+        window.location.replace("https://facebook.com/photo.php?fbid=" + response.id + "&makeprofile=1&makeuserprofile=1");
+    });
+  });
+
+  function fb_login(){
+    FB.login(function(response) {
 
             if (response.authResponse) {
                 console.log('Welcome!  Fetching your information.... ');
@@ -20,11 +30,24 @@ $(document).ready(function() {
         });
     }
 
+            checkLoginState();
+
+        } else {
+            //user hit cancel button
+            console.log('User cancelled login or did not fully authorize.');
+
+        }
+    }, {
+        scope: 'public_profile,email,publish_actions'
+    });
+}
+    // This is called with the results from from FB.getLoginStatus().
     function statusChangeCallback(response) {
         console.log('statusChangeCallback');
         console.log(response);
         if (response.status === 'connected') {
-            $('.facebook').html("Already Authenticated");
+            // Logged into your app and Facebook.
+            // $('.facebook').html("Already Authenticated");
             beginProfileGrab();
         } else if (response.status === 'not_authorized') {
             // The person is logged into Facebook, but not your app.
@@ -100,7 +123,9 @@ $(document).ready(function() {
                                 $('#intern-image').css("border-radius", "2px")
                                 $('#placeholder-image').fadeIn();
                             });
-                            $('#facebook-signin').fadeOut();
+                            $('#login').fadeOut(function() {
+                                $('#post').fadeIn();
+                            });
                             console.log(response.data.url);
                         }
                     }
