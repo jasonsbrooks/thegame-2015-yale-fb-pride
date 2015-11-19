@@ -11,7 +11,7 @@ $(document).ready(function() {
         return new Blob([ab], { type: 'image/png' });
     }
 
-  $('#login').click(function() {
+  $('.login').click(function() {
     fb_login();
   });
 
@@ -154,7 +154,7 @@ $(document).ready(function() {
                                 $('#intern-image').css("border-radius", "2px")
                                 $('#placeholder-image').fadeIn();
                             });
-                            $('#login').fadeOut(function() {
+                            $('.login').fadeOut(function() {
                                 $('#post').fadeIn();
                             });
                             console.log(response.data.url);
