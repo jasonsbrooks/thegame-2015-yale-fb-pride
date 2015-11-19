@@ -5,3 +5,9 @@
   margin: 0;
   padding: 0;
 }
+
+#login-button {
+	width: 10%;
+	margin-left: auto;
+	margin-right: auto;
+}
