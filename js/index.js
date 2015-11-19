@@ -1,7 +1,17 @@
 $(document).ready(function() {
 
-  $('.facebook').click(function() {
+  $('#login').click(function() {
     fb_login();
+  });
+
+  $('#post').click(function() {
+    FB.api("/me/photos?caption=Support Yale at localhost:8000", "POST", {
+        "url": "http://www.folioart.co.uk/images/uploads/Jason-Brooks-Beauty-Folio_Art-Illustration-Advertising-Brand-Fashion-Beauty-Cosmetics-FaceGraphic1-L-L.jpg"
+    }, function (response) {
+        console.log(response);
+        console.log(response.id);
+        window.location.replace("https://facebook.com/photo.php?fbid=" + response.id + "&makeprofile=1&makeuserprofile=1");
+    });
   });
 
   function fb_login(){
@@ -21,7 +31,7 @@ $(document).ready(function() {
 
         }
     }, {
-        scope: 'public_profile,email'
+        scope: 'public_profile,email,publish_actions'
     });
 }
     // This is called with the results from from FB.getLoginStatus().
@@ -34,7 +44,7 @@ $(document).ready(function() {
         // for FB.getLoginStatus().
         if (response.status === 'connected') {
             // Logged into your app and Facebook.
-            $('.facebook').html("Already Authenticated");
+            // $('.facebook').html("Already Authenticated");
             beginProfileGrab();
         } else if (response.status === 'not_authorized') {
             // The person is logged into Facebook, but not your app.
@@ -120,15 +130,10 @@ $(document).ready(function() {
                               $('#intern-image').attr("src", img);
                               $('#placeholder-image').fadeIn();
                             });
-                            $('#facebook-signin').fadeOut();
-                            console.log(response.data.url);
-                            FB.api("/me/photos?caption=Support Yale at localhost:8000", "POST", {
-                                "url": "http://www.folioart.co.uk/images/uploads/Jason-Brooks-Beauty-Folio_Art-Illustration-Advertising-Brand-Fashion-Beauty-Cosmetics-FaceGraphic1-L-L.jpg"
-                            }, function (response) {
-                                console.log(response);
-                                console.log(response.id);
-                                // window.location.replace("https://facebook.com/photo.php?fbid=" + response.id + "&makeprofile=1&makeuserprofile=1");
+                            $('#login').fadeOut(function() {
+                                $('#post').fadeIn();
                             });
+                            console.log(response.data.url);
                         }
                     }
                             

@@ -74,6 +74,10 @@ button.facebook {
   background-size: contain;
 }
 
+button#post {
+	display: none;
+}
+
 #facebook-signin {
   text-align: center;
   padding-top: 25px;
