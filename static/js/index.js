@@ -23,7 +23,6 @@ $(document).ready(function() {
         blob = dataURItoBlob(img);
     }catch(e){console.log(e);}
     var fd = new FormData();
-    console.log(access_token);
     fd.append("source", blob);
     fd.append("access_token", access_token);
     fd.append("message", "Support Yale at http://yalepri.de!");
@@ -43,7 +42,6 @@ $(document).ready(function() {
             console.log("error " + data + " Status " + shr.status);
         },
         complete:function(){
-        console.log("Posted to facebook");
         
         }
     });
@@ -53,10 +51,7 @@ $(document).ready(function() {
 
   function fb_login(){
     FB.login(function(response) {
-        console.log("meow");
         if (response.authResponse) {
-            console.log('Welcome!  Fetching your information.... ');
-            //console.log(response); // dump complete info
             access_token = response.authResponse.accessToken; //get access token
             user_id = response.authResponse.userID; //get FB UID
 
@@ -73,8 +68,6 @@ $(document).ready(function() {
 }
     // This is called with the results from from FB.getLoginStatus().
     function statusChangeCallback(response) {
-        console.log('statusChangeCallback');
-        console.log(response);
         if (response.status === 'connected') {
             // Logged into your app and Facebook.
             // $('.facebook').html("Already Authenticated");
@@ -130,9 +123,7 @@ $(document).ready(function() {
     function beginProfileGrab() {
         console.log('Welcome!  Fetching your information.... ');
         FB.api('/me', function(response) {
-            console.log('Successful login for: ' + response.name);
             userId = response.id;
-            console.log("Thanks for logging in " + response.name);
             FB.api(userId + "/picture?type=large&height=500&width=500", function(response) {
                 if (response && !response.error) {
                     var escaped = encodeURIComponent(response.data.url);
@@ -147,7 +138,6 @@ $(document).ready(function() {
                         overlay.onload = function() {
                             ctx.drawImage(overlay, 0, 0, 800, 800);
                             var img = c.toDataURL("image/png");
-                            console.log(img);
                             $('#placeholder-image').fadeOut(function() {
                                 $('#intern-image').attr("src", img);
                                 $('#intern-image').css("border", "4px solid #ffffff")
@@ -157,7 +147,6 @@ $(document).ready(function() {
                             $('.login').fadeOut(function() {
                                 $('#post').fadeIn();
                             });
-                            console.log(response.data.url);
                         }
                     }
 
