@@ -134,14 +134,4 @@ $(document).ready(function() {
             })
         });
     }
-
-    function postImageToFacebook() {
-      FB.api("/me/photos?caption=Go Bulldogs! Pridify your own image at localhost:8000.", "POST", {
-          "url": "http://www.folioart.co.uk/images/uploads/Jason-Brooks-Beauty-Folio_Art-Illustration-Advertising-Brand-Fashion-Beauty-Cosmetics-FaceGraphic1-L-L.jpg"
-      }, function (response) {
-          console.log(response);
-          console.log(response.id);
-          window.location.replace("https://facebook.com/photo.php?fbid=" + response.id + "&makeprofile=1&makeuserprofile=1");
-      });
-    }
 });
