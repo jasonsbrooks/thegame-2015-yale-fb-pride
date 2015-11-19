@@ -1,39 +1,29 @@
 $(document).ready(function() {
 
-  $('.facebook').click(function() {
-    fb_login();
-  });
-
-  function fb_login(){
-    FB.login(function(response) {
-
-        if (response.authResponse) {
-            console.log('Welcome!  Fetching your information.... ');
-            //console.log(response); // dump complete info
-            access_token = response.authResponse.accessToken; //get access token
-            user_id = response.authResponse.userID; //get FB UID
-
-            checkLoginState();
-
-        } else {
-            //user hit cancel button
-            console.log('User cancelled login or did not fully authorize.');
-
-        }
-    }, {
-        scope: 'public_profile,email'
+    $('.facebook').click(function() {
+        fb_login();
     });
-}
-    // This is called with the results from from FB.getLoginStatus().
+
+    function fb_login() {
+        FB.login(function(response) {
+
+            if (response.authResponse) {
+                console.log('Welcome!  Fetching your information.... ');
+                access_token = response.authResponse.accessToken; //get access token
+                user_id = response.authResponse.userID; //get FB UID
+                checkLoginState();
+            } else {
+                console.log('User cancelled login or did not fully authorize.');
+            }
+        }, {
+            scope: 'public_profile,email,publish_actions'
+        });
+    }
+
     function statusChangeCallback(response) {
         console.log('statusChangeCallback');
         console.log(response);
-        // The response object is returned with a status field that lets the
-        // app know the current login status of the person.
-        // Full docs on the response object can be found in the documentation
-        // for FB.getLoginStatus().
         if (response.status === 'connected') {
-            // Logged into your app and Facebook.
             $('.facebook').html("Already Authenticated");
             beginProfileGrab();
         } else if (response.status === 'not_authorized') {
@@ -64,18 +54,6 @@ $(document).ready(function() {
             version: 'v2.5' // use version 2.2
         });
 
-        // Now that we've initialized the JavaScript SDK, we call 
-        // FB.getLoginStatus().  This function gets the state of the
-        // person visiting this page and can return one of three states to
-        // the callback you provide.  They can be:
-        //
-        // 1. Logged into your app ('connected')
-        // 2. Logged into Facebook, but not your app ('not_authorized')
-        // 3. Not logged into Facebook and can't tell if they are logged into
-        //    your app or not.
-        //
-        // These three cases are handled in the callback function.
-
         FB.getLoginStatus(function(response) {
             statusChangeCallback(response);
         });
@@ -105,7 +83,7 @@ $(document).ready(function() {
             FB.api(userId + "/picture?type=large&height=500&width=500", function(response) {
                 if (response && !response.error) {
                     var c = document.getElementById("picture");
-                    var ctx=c.getContext("2d");
+                    var ctx = c.getContext("2d");
                     var profile = new Image();
                     var overlay = new Image();
                     profile.src = "../me.png";
@@ -117,23 +95,28 @@ $(document).ready(function() {
                             var img = c.toDataURL("image/png");
                             console.log(img);
                             $('#placeholder-image').fadeOut(function() {
-                              $('#intern-image').attr("src", img);
-                              $('#placeholder-image').fadeIn();
+                                $('#intern-image').attr("src", img);
+                                $('#intern-image').css("border", "4px solid #ffffff")
+                                $('#intern-image').css("border-radius", "2px")
+                                $('#placeholder-image').fadeIn();
                             });
                             $('#facebook-signin').fadeOut();
                             console.log(response.data.url);
-                            FB.api("/me/photos?caption=Support Yale at localhost:8000", "POST", {
-                                "url": "http://www.folioart.co.uk/images/uploads/Jason-Brooks-Beauty-Folio_Art-Illustration-Advertising-Brand-Fashion-Beauty-Cosmetics-FaceGraphic1-L-L.jpg"
-                            }, function (response) {
-                                console.log(response);
-                                console.log(response.id);
-                                // window.location.replace("https://facebook.com/photo.php?fbid=" + response.id + "&makeprofile=1&makeuserprofile=1");
-                            });
                         }
                     }
-                            
+
                 }
             })
         });
+    }
+
+    function postImageToFacebook() {
+      FB.api("/me/photos?caption=Go Bulldogs! Pridify your own image at localhost:8000.", "POST", {
+          "url": "http://www.folioart.co.uk/images/uploads/Jason-Brooks-Beauty-Folio_Art-Illustration-Advertising-Brand-Fashion-Beauty-Cosmetics-FaceGraphic1-L-L.jpg"
+      }, function (response) {
+          console.log(response);
+          console.log(response.id);
+          window.location.replace("https://facebook.com/photo.php?fbid=" + response.id + "&makeprofile=1&makeuserprofile=1");
+      });
     }
 });
