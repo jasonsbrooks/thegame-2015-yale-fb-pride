@@ -24,7 +24,7 @@ $(document).ready(function() {
     var fd = new FormData();
     fd.append("source", blob);
     fd.append("access_token", access_token);
-    fd.append("message", "Support Yale at http://yalepri.de!");
+    fd.append("message", "Support Yale at http://goyale.com!");
     try{
     $.ajax({
         url:"https://graph.facebook.com/me/photos?access_token=" + access_token,
