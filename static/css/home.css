@@ -92,6 +92,10 @@ div.privacy p {
   padding: 5px 0;
 }
 
+div.privacy p:last-child {
+  padding-bottom: 15px;
+}
+
 #facebook-signin {
   text-align: center;
   padding-top: 25px;
